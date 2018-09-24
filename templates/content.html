@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+       <form class="form-inline" action="{{ url_for('add_data', entity=entity) }}" method="post">
+            {% for attribute in attributes %}
+                <div class="form-group">
+                    <label for="{{ attribute }}">{{ attribute }}:</label>
+                    <input type="text" class="form-control" id="{{ attribute }}" name="{{ attribute }}" value="0">
+                </div>
+            {% endfor %}
+           {% for foreign_entity in foreign_entity_table %}
+                <div class="form-group">
+                    <label for="{{ foreign_entity }}">{{ foreign_entity }}</label>
+                      <select class="form-control" id="{{ foreign_entity }}" name="id{{ foreign_entity }}">
+                          {% for foreign_table in foreign_tables %}
+                            {% for item in foreign_table[foreign_entity] %}
+                                {% for key, value in item.items() %}}
+                                    {% if loop.index == 2 %}
+                                        <option value="{{ item['id{}'.format(foreign_entity)] }}">{{ value }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                          {% endfor %}
+                      </select>
+                </div>
+            {% endfor %}
+        <button type="submit" class="btn btn-success">Add</button>
+        </form>
+    </div>
+
+    <div class="container">
+      <h2>{{entity}} list</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+              {% for attribute in attributes %}
+                <th>{{attribute}}</th>
+              {% endfor %}
+                {% if foreign_attributes_table %}
+                  {% for entity in foreign_attributes_table %}
+                        {% for foreign_attribute in entity %}
+                            <th>{{foreign_attribute}}</th>
+                        {% endfor %}
+                  {% endfor %}
+              {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+            {% for row in planung %}
+                <tr>
+                    {% for column in row %}
+                        <td>{{ column }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            {% for list in content %}
+                <tr>
+                    {% for data in list %}
+                        <td>{{ data }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+{% endblock %}
+

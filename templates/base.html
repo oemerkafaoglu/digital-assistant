@@ -1,0 +1,44 @@
+<!doctype html>
+<title>{{entity}}{% block title %}{% endblock %}</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand active" href="{{url_for('index')}}">Digital-Assistant</a>
+    </div>
+    <ul class="nav navbar-nav">
+        {% for table in tables %}
+          {% if entity == table["entity"] %}
+            <li class="active"><a href="{{ url_for('navigate', entity=table['entity']) }}">{{ table["entity"] }}</a></li>
+          {% else %}
+            <li><a href="{{ url_for('navigate', entity=table['entity']) }}">{{ table["entity"] }}</a></li>
+          {% endif %}
+        {% endfor %}
+    </ul>
+  </div>
+</nav>
+
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% block content %}
+
+  {% endblock %}
+  {% block subscribe_script %}
+    <script src="https://cdn.recast.ai/webchat/webchat.js"
+    channelId="28859cf7-df6a-4767-8e2a-29deca3e4ff4"
+    token="40df63c00eeddf475252f1cff38ec911"
+    id="recast-webchat"
+    ></script>
+  {% endblock %}
+
+</section>
