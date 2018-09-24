@@ -58,9 +58,9 @@ ChannelId und Token
 ```
 aus dem Snippet kopieren/merken/aufschreiben.
 
-7. Flask-Anwendung aufrufen (localhost:5000)
+7. Flask-Anwendung über die ngrok-URL aufrufen (Bei localhost:5000 reagiert der Chatbot nicht auf Eingaben)
 8. Auf der Startseite ChannelID und Token vom Webchannel eintragen.
-9. Seite neu laden, der Chatbot erscheint
+9. Der Chatbot erscheint, nachdem "Submit" betätigt wurde
 
 ## Nutzung
 
