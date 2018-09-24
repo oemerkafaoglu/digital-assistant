@@ -25,18 +25,16 @@
     </ul>
   </div>
 </nav>
-
 <section class="content">
   <header>
     {% block header %}{% endblock %}
   </header>
   {% block content %}
-
   {% endblock %}
   {% block subscribe_script %}
     <script src="https://cdn.recast.ai/webchat/webchat.js"
-    channelId="28859cf7-df6a-4767-8e2a-29deca3e4ff4"
-    token="40df63c00eeddf475252f1cff38ec911"
+    channelId={{chatbot.channelid}}
+    token={{chatbot.token}}
     id="recast-webchat"
     ></script>
   {% endblock %}

@@ -3,7 +3,25 @@
 {% block header %}
 
 {% endblock %}
-<h1>{{connection}}</h1>
+
 {% block content %}
+<h1>{{connection}}</h1>
+
+<div class="container">
+    <h1>Digital-Assistant: Enter the details</h1>
+    <p>You can find them on Recast.ai - Connect</p>
+    <form action="{{ url_for('init_chatbot') }}" method="post">
+      <div class="form-group">
+        <label for="channelId">Channel ID:</label>
+        <input type="text" class="form-control" id="channelId" name="channelId" placeholder="{{ chatbot.channelid }}">
+      </div>
+      <div class="form-group">
+        <label for="token">Token:</label>
+        <input type="text" class="form-control" id="token" name="token" placeholder="{{ chatbot.token }}">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
 {% endblock %}
 

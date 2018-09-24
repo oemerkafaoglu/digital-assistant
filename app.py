@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 from flaskext.mysql import MySQL
 import json
 
@@ -12,7 +12,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'admin'
 app.config['MYSQL_DATABASE_DB'] = 'demo'
-app.config['MYSQL_DATABASE_HOST'] = 'digital_assistant_mysql'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
 @app.route('/')
@@ -20,9 +20,9 @@ def index():
     tables = get_data()
     if not tables:
         connection = "Es existieren noch keine Objekte"
-        return render_template("index.html", connection=connection)
+        return render_template("index.html", connection=connection, chatbot=chatbot_channelid_token())
     else:
-        return render_template("index.html", tables=tables)
+        return render_template("index.html", tables=tables, chatbot=chatbot_channelid_token())
 
 @app.route("/navigate/<entity>")
 def navigate(entity):
@@ -69,9 +69,11 @@ def navigate(entity):
         conn.close()
         return render_template("content.html", entity=entity, attributes=attributes, tables=tables,
                                foreign_tables=foreign_tables1, foreign_attributes_table=foreign_attributes_table,
-                               foreign_entity_table=foreign_entity_table, planung=planung)
+                               foreign_entity_table=foreign_entity_table, planung=planung,
+                               chatbot=chatbot_channelid_token())
 
-    return render_template("content.html", entity=entity, attributes=attributes, tables=tables, content=content)
+    return render_template("content.html", entity=entity, attributes=attributes, tables=tables, content=content,
+                           chatbot=chatbot_channelid_token())
 
 
 @app.route("/add_data/<entity>", methods=['POST'])
@@ -88,6 +90,13 @@ def add_data(entity):
     conn.commit()
     conn.close()
     return redirect(url_for('navigate', entity=entity))
+
+@app.route("/init_chatbot", methods=['POST'])
+def init_chatbot():
+    channelid = request.form["channelId"]
+    token = request.form["token"]
+    session["chatbot"] = {"channelid": channelid, "token": token}
+    return redirect(url_for("index"))
 
 @app.route('/digital-assistant/greetings', methods=['POST'])
 def greetings():
@@ -406,6 +415,11 @@ def structure_tables(attributes, content):
         structured_dict = {}
         structured_table.append(d)
     return structured_table
+
+def chatbot_channelid_token():
+    if "chatbot" in session:
+        return session["chatbot"]
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
