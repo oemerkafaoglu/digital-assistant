@@ -12,7 +12,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'admin'
 app.config['MYSQL_DATABASE_DB'] = 'demo'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'digital_assistant_mysql'
 mysql.init_app(app)
 
 @app.route('/')
